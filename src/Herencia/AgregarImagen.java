@@ -4,9 +4,9 @@
  */
 
 /*
- * Interfaz.java
+ * AgregarImagen.java
  *
- * Created on 27-jul-2012, 23:06:21
+ * Created on 27-jul-2012, 23:37:46
  */
 package Herencia;
 
@@ -14,11 +14,15 @@ package Herencia;
  *
  * @author NIGHTMARE
  */
-public class Interfaz extends javax.swing.JFrame {
-
-    /** Creates new form Interfaz */
-    public Interfaz() {
+public class AgregarImagen extends javax.swing.JFrame {
+    Image imgs[]=new Image[10];
+    /** Creates new form AgregarImagen */
+    public AgregarImagen() {
         initComponents();
+        imgs[0]=new Reflexion_Image("Hola","Esto es una prueba","C:/Users/NIGHTMARE/Pictures/Chistes/251816_345731485504094_1980963477_n.jpg");
+        imgs[1]=new Other_Image("Mundo","Esta es la segunda prueba","C:/Users/NIGHTMARE/Pictures/Chistes/561411_456641657689783_1252566430_n.jpg");
+        VisorImagenes temp=new VisorImagenes(imgs,0,2);
+        temp.setVisible(true);
     }
 
     /** This method is called from within the constructor to
@@ -30,20 +34,11 @@ public class Interfaz extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        getContentPane().setLayout(null);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
-
-        pack();
+        java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+        setBounds((screenSize.width-544)/2, (screenSize.height-458)/2, 544, 458);
     }// </editor-fold>//GEN-END:initComponents
 
     /**
@@ -53,7 +48,7 @@ public class Interfaz extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
-                new Interfaz().setVisible(true);
+                new AgregarImagen().setVisible(true);
             }
         });
     }
