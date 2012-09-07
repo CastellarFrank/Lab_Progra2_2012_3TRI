@@ -20,7 +20,6 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 
 public class View_Users extends javax.swing.JFrame {
@@ -60,8 +59,8 @@ public class View_Users extends javax.swing.JFrame {
     }
 
     private void crearObjetos() {
-        this.contenedorPrincipal.setBounds(0, 0, 450, 500);
-        this.contenedorPrincipal.setLayout(new FlowLayout(FlowLayout.LEADING));
+        this.contenedorPrincipal.setSize(220, 500);
+        this.contenedorPrincipal.setLayout(new BoxLayout(this.contenedorPrincipal,BoxLayout.PAGE_AXIS));
         for(int i=0;i<this.cant;i++){
             this.contenedores[i][0]=new Container();
             this.contenedores[i][0].setLayout(new BoxLayout(this.contenedores[i][0],BoxLayout.LINE_AXIS));
@@ -76,8 +75,10 @@ public class View_Users extends javax.swing.JFrame {
             this.objetos[i][3]=new JLabel((this.usuarios[i].Sexo=='M'?"Masculino":"Femenino"));
             administrarContenedores(i);
         }
-        
-        this.setContentPane(this.contenedorPrincipal);
+        JScrollPane scroll=new JScrollPane();
+        scroll.setViewportView(this.contenedorPrincipal);
+        scroll.setBounds(10, 10, 220, 500);
+        this.getContentPane().add(scroll);
     }
 
     private void colocarImagen(int i) {
