@@ -15,10 +15,16 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Image;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 
@@ -28,12 +34,18 @@ public class View_Users extends javax.swing.JFrame {
     Object objetos[][];
     Users usuarios[];
     int cant;
+    int selectedUser;
+    JScrollPane scroll=new JScrollPane();
     public View_Users(Users us[],int cant) {
         initComponents();
         this.usuarios=us;
         this.cant=cant;
         iniciar();
         crearObjetos();
+        addListeners();
+        selectedUser=0;
+        if(cant!=0)
+            this.setSelectedUser(0);
     }
 
     /** This method is called from within the constructor to
@@ -49,7 +61,7 @@ public class View_Users extends javax.swing.JFrame {
         getContentPane().setLayout(null);
 
         java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-        setBounds((screenSize.width-351)/2, (screenSize.height-542)/2, 351, 542);
+        setBounds((screenSize.width-760)/2, (screenSize.height-579)/2, 760, 579);
     }// </editor-fold>//GEN-END:initComponents
 
     private void iniciar() {
@@ -59,7 +71,7 @@ public class View_Users extends javax.swing.JFrame {
     }
 
     private void crearObjetos() {
-        this.contenedorPrincipal.setSize(220, 500);
+        this.contenedorPrincipal.setSize(220, 400);
         this.contenedorPrincipal.setLayout(new BoxLayout(this.contenedorPrincipal,BoxLayout.PAGE_AXIS));
         for(int i=0;i<this.cant;i++){
             this.contenedores[i][0]=new Container();
@@ -75,9 +87,8 @@ public class View_Users extends javax.swing.JFrame {
             this.objetos[i][3]=new JLabel((this.usuarios[i].Sexo=='M'?"Masculino":"Femenino"));
             administrarContenedores(i);
         }
-        JScrollPane scroll=new JScrollPane();
         scroll.setViewportView(this.contenedorPrincipal);
-        scroll.setBounds(10, 10, 220, 500);
+        scroll.setBounds(10, 10, 220, 400);
         this.getContentPane().add(scroll);
     }
 
@@ -97,6 +108,57 @@ public class View_Users extends javax.swing.JFrame {
         this.contenedores[i][1].add(((JLabel)this.objetos[i][1]));
         this.contenedores[i][1].add(((JLabel)this.objetos[i][2]));
         this.contenedores[i][1].add(((JLabel)this.objetos[i][3]));
+    }
+
+    private void setSelectedUser(int i) {
+        ((JLabel)this.objetos[this.selectedUser][0]).setBorder(BorderFactory.createLineBorder(Color.BLACK.RED));
+        this.selectedUser=i;
+        ((JLabel)this.objetos[i][0]).setBorder(BorderFactory.createLineBorder(Color.RED,10));
+    }
+    private void addListeners() {
+        for(int i=0;i<this.cant;i++){
+            final int vali=i;
+            this.contenedores[i][0].addMouseListener(new MouseAdapter(){
+                
+                @Override
+                public void mouseClicked(MouseEvent e){
+                    setSelectedUser(vali);
+                }
+            });
+        }
+        this.scroll.addMouseWheelListener(new MouseAdapter(){
+            @Override
+            public void mouseWheelMoved(MouseWheelEvent e){
+                int temp=scroll.getVerticalScrollBar().getValue();
+                scroll.getVerticalScrollBar().setValue(temp+(e.getWheelRotation()*5));
+            }
+        });
+        this.scroll.addKeyListener(new KeyAdapter (){
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode()==KeyEvent.VK_UP){
+                    int temp=scroll.getVerticalScrollBar().getValue();
+                    scroll.getVerticalScrollBar().setValue(temp-5);
+                }else if(e.getKeyCode()==KeyEvent.VK_DOWN){
+                    int temp=scroll.getVerticalScrollBar().getValue();
+                    scroll.getVerticalScrollBar().setValue(temp+5);
+                }
+            }
+        });
+        
+        this.scroll.addMouseMotionListener(new MouseAdapter(){
+            @Override
+            public void mouseMoved(MouseEvent e){
+                scroll.requestFocus();
+            }
+        });
+        final JFrame form=this;
+        this.addMouseMotionListener(new MouseAdapter(){
+            @Override
+            public void mouseMoved(MouseEvent e){
+                form.requestFocus();
+            }
+        });
     }
 
     /**
