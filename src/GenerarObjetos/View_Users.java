@@ -10,7 +10,18 @@
  */
 package GenerarObjetos;
 
+import java.awt.Color;
 import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Image;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 
 public class View_Users extends javax.swing.JFrame {
     Container contenedorPrincipal;
@@ -49,9 +60,42 @@ public class View_Users extends javax.swing.JFrame {
     }
 
     private void crearObjetos() {
+        this.contenedorPrincipal.setBounds(0, 0, 450, 500);
+        this.contenedorPrincipal.setLayout(new FlowLayout(FlowLayout.LEADING));
         for(int i=0;i<this.cant;i++){
-            
+            this.contenedores[i][0]=new Container();
+            this.contenedores[i][0].setLayout(new BoxLayout(this.contenedores[i][0],BoxLayout.LINE_AXIS));
+            this.contenedores[i][0].setSize(200, 100);
+            this.contenedores[i][1]=new Container();
+            this.contenedores[i][1].setLayout(new BoxLayout(this.contenedores[i][1],BoxLayout.Y_AXIS));
+            this.contenedores[i][1].setSize(120,100);
+            this.objetos[i][0] = new JLabel();
+            colocarImagen(i);
+            this.objetos[i][1]=new JLabel(this.usuarios[i].nombre);
+            this.objetos[i][2]=new JLabel(this.usuarios[i].direccion);
+            this.objetos[i][3]=new JLabel((this.usuarios[i].Sexo=='M'?"Masculino":"Femenino"));
+            administrarContenedores(i);
         }
+        
+        this.setContentPane(this.contenedorPrincipal);
+    }
+
+    private void colocarImagen(int i) {
+        ImageIcon image=new ImageIcon(this.usuarios[i].path);
+        ImageIcon imagen=new ImageIcon(image.getImage().getScaledInstance(80,100,Image.SCALE_DEFAULT));
+        ((JLabel)this.objetos[i][0]).setIcon(imagen);
+        ((JLabel)this.objetos[i][0]).setBorder(BorderFactory.createLineBorder(Color.BLACK));
+    }
+
+    private void administrarContenedores(int i) {
+        this.contenedorPrincipal.add(this.contenedores[i][0]);
+        this.contenedorPrincipal.add(Box.createRigidArea(new Dimension(0,20)));
+        this.contenedores[i][0].add(((JLabel)this.objetos[i][0]));
+        this.contenedores[i][0].add(Box.createRigidArea(new Dimension(20,0)));
+        this.contenedores[i][0].add(this.contenedores[i][1]);
+        this.contenedores[i][1].add(((JLabel)this.objetos[i][1]));
+        this.contenedores[i][1].add(((JLabel)this.objetos[i][2]));
+        this.contenedores[i][1].add(((JLabel)this.objetos[i][3]));
     }
 
     /**
