@@ -10,6 +10,7 @@
  */
 package GenerarObjetos;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -46,6 +47,7 @@ public class View_Users extends javax.swing.JFrame {
         selectedUser=0;
         if(cant!=0)
             this.setSelectedUser(0);
+        openFormed();
     }
 
     /** This method is called from within the constructor to
@@ -159,6 +161,11 @@ public class View_Users extends javax.swing.JFrame {
                 form.requestFocus();
             }
         });
+    }
+
+    private void openFormed() {
+        TablaDibujado table=new TablaDibujado();
+        this.add(table, BorderLayout.CENTER);
     }
 
     /**
